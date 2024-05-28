@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsNumber, MaxLength } from "class-validator";
+import { IsEmail, IsNotEmpty, MaxLength } from "class-validator";
 
 export class CriaClienteDTO {
   @IsNotEmpty({ message: 'O Nome não pode ser vazio.' })
