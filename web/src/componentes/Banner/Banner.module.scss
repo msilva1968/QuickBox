@@ -1,0 +1,22 @@
+.BannerArea {
+    height: 30vh;
+    background: linear-gradient(rgba(240, 240, 240, 0.144), rgba(255, 255, 255, 0.336));
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgb(105, 165, 245);
+
+    .Container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-size: 1.6rem;
+    }
+
+    .Titulo {
+        text-transform: uppercase;
+        margin: 0;
+    }
+}
