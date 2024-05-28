@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { CriaClienteDTO } from "./dto/CriaCliente.dto";
 import { AtualizaClienteDTO } from "./dto/AtualizaCliente.dto";
 import { ClienteService } from "./cliente.service";
