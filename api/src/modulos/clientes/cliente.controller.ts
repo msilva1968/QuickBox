@@ -2,7 +2,6 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UseInterceptors } from
 import { CriaClienteDTO } from "./dto/CriaCliente.dto";
 import { AtualizaClienteDTO } from "./dto/AtualizaCliente.dto";
 import { ClienteService } from "./cliente.service";
-import { CacheInterceptor } from "@nestjs/cache-manager";
 
 @Controller('cliente')
 export class ClienteController {
@@ -21,14 +20,12 @@ export class ClienteController {
   }
 
   @Get()
-  @UseInterceptors(CacheInterceptor)
   async listaClientes() {
     const listaClientes = await this.clienteService.listarClientesSalvos();
     return listaClientes;
   }
 
   @Get('/:id')
-  @UseInterceptors(CacheInterceptor)
   async buscaPorId(@Param('id') id: string) {
     const cliente = await this.clienteService.buscarClientePorId(id);
     return cliente;

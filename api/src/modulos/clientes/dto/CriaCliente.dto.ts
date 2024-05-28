@@ -1,5 +1,4 @@
 import { IsEmail, IsNotEmpty, IsNumber, MaxLength } from "class-validator";
-import { EmailUnico } from "../validators/emailUnico.validator";
 
 export class CriaClienteDTO {
   @IsNotEmpty({ message: 'O Nome não pode ser vazio.' })
@@ -11,7 +10,6 @@ export class CriaClienteDTO {
   cnpj: string;
 
   @IsNotEmpty({ message: 'O CEP não pode ser vazio.' })
-  @IsNumber()
   cep: string;
 
   @IsNotEmpty({ message: 'O Bairro não pode ser vazio.' })
@@ -44,7 +42,6 @@ export class CriaClienteDTO {
 
   @IsNotEmpty({ message: 'O eMail não pode ser vazio.' })
   @IsEmail(undefined, { message: 'O e-mail informado é inválido' })
-  @EmailUnico({ message: 'Já existe um usuário com este e-mail' })
   email: string;
 
   @IsNotEmpty({ message: 'A Senha não pode ser vazio.' })
