@@ -43,7 +43,7 @@ export class ClienteController {
 
     return {
       mensagem: 'Cliente atualizado com sucesso!',
-      produto: clienteAlterado,
+      cliente: clienteAlterado,
     };
   }
 
@@ -53,7 +53,7 @@ export class ClienteController {
 
     return {
       mensagem: 'Cliente excluído com sucesso',
-      produto: clienteRemovido,
+      cliente: clienteRemovido,
     };
   }
 }
