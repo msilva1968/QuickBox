@@ -1,6 +1,6 @@
 import estilos from './Rodape.module.scss';
 
-const NavBar = () => {
+const Rodape = () => {
   return (<footer className={estilos.Rodape}>
     <div>
       <p>Copyright &copy; {new Date().getFullYear()} Quick Box</p>
@@ -20,4 +20,4 @@ const NavBar = () => {
   </footer>)
 }
 
-export default NavBar
+export default Rodape
