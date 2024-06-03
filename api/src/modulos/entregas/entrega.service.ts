@@ -19,21 +19,21 @@ export class EntregaService {
     Object.assign(entregaEntity, criaEntregaDTO);
     entregaEntity.status = StatusEntrega.PENDENTE;
     entregaEntity.id = await this.gerarSequencial();
-    entregaEntity.codigoEntrega = this.gerarCodigoEntrega(entregaEntity);
-    entregaEntity.codigoConfirmacao = this.gerarCodigoRandom();
-    entregaEntity.codigoColeta = this.gerarCodigoRandom();
+    entregaEntity.codigoEntrega =  await this.gerarCodigoEntrega(entregaEntity);
+    entregaEntity.codigoConfirmacao = await this.gerarCodigoRandom();
+    entregaEntity.codigoColeta =  await this.gerarCodigoRandom();
     return this.entregaRepository.save(entregaEntity);
 
   }
 
 
 
-  private gerarCodigoEntrega(entregaEntity: EntregaEntity): string {
+  private async gerarCodigoEntrega(entregaEntity: EntregaEntity): Promise<string> {
     
     return `${entregaEntity.estado.toUpperCase()}${entregaEntity.id.toString().padStart(6, '0')}`;
   }
 
-  private gerarCodigoRandom(): string {
+  private async gerarCodigoRandom(): Promise<string> {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numbers = '0123456789';
 
