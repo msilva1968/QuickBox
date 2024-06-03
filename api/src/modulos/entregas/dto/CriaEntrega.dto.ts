@@ -2,7 +2,6 @@ import { IsEmail, IsNotEmpty, MaxLength } from "class-validator";
 
 export class CriaEntregaDTO {
 
-
   @IsNotEmpty({ message: 'O Código Cliente não pode ser vazio.' })
   clienteId: string;
 
@@ -52,8 +51,5 @@ export class CriaEntregaDTO {
   @IsNotEmpty({ message: 'O longitude não pode ser vazio.' })
   @MaxLength(14, { message: 'O longitude precisa ter no máximo 14 caracteres' })
   longitude: string;
-
-  
-
 
 }

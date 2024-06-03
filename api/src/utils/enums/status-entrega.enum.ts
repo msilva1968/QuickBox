@@ -3,5 +3,5 @@ export enum StatusEntrega {
   AGUARDANDO = 'aguardando',
   COLETA = 'coleta',
   EM_ROTA = 'em_rota',
-  ENTREGUES = 'entregues'
+  ENTREGUE = 'entregue'
 }

@@ -43,6 +43,28 @@ export class EntregaService {
     return `${randomLetters}${randomNumbers}`;
   }
 
+  private async salvar(entregaEntity: EntregaEntity) {
+    return await this.entregaRepository.save(entregaEntity);
+  }
+
+  private async buscarCodigoConfirmacao(codigoConfirmacao: string) {
+    const existeCodigo = await this.entregaRepository.findOneBy({ codigoConfirmacao });
+
+    if (!existeCodigo) {
+      throw new NotFoundException('Entrega não existe');
+    }
+    return existeCodigo;
+  }
+
+  async atualizarConfirmacaoEntrega(codigoConfirmacao: string) {
+
+    const entrega = await this.buscarCodigoConfirmacao(codigoConfirmacao);
+
+    entrega.status = StatusEntrega.ENTREGUE;
+
+    return await this.salvar(entrega);
+  }
+
   private async gerarSequencial()
   {
     var entrega= await this.entregaRepository.maximum("id");
