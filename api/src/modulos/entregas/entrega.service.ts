@@ -26,8 +26,6 @@ export class EntregaService {
 
   }
 
-
-
   private async gerarCodigoEntrega(entregaEntity: EntregaEntity): Promise<string> {
     
     return `${entregaEntity.estado.toUpperCase()}${entregaEntity.id.toString().padStart(6, '0')}`;
