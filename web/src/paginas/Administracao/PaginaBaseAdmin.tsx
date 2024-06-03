@@ -15,7 +15,7 @@ const PaginaBaseAdmin = () => {
                         </Typography>
                         <Box sx={{ display: 'flex', flexGrow: 1 }}>
                             {itemsPaginaAdmin.menu.map(item => (
-                                <Link component={RouterLink} to={`${paginaBaseAdmin}${itemsPaginaAdmin.nomePagina}/${item}`} >
+                                <Link component={RouterLink} to={`${paginaBaseAdmin}${item}`} >
                                     <Button sx={{ my: 2, color: 'white' }}>
                                         {item}
                                     </Button>

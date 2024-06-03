@@ -18,16 +18,16 @@ function App() {
               <Route index element={<Home />} />
               <Route path={`${paginaBaseAdmin}`} element={<PaginaBaseAdmin />} >
                 {itemsPaginaAdmin.menu.map(item => {
-                  const Component = React.lazy(() => import(`./paginas/Administracao/${itemsPaginaAdmin.nomePagina}/${item}`));
+                  const Component = React.lazy(() => import(`./paginas/Administracao/${item}`));
                   return (
                     <>
                       <Route
                         key={`${itemsPaginaAdmin.nomePagina}${item}`}
-                        path={`${paginaBaseAdmin}${itemsPaginaAdmin.nomePagina}/${item}`}
+                        path={`${paginaBaseAdmin}/${item}`}
                         element={<Component />} />
                       <Route
                         key={`${itemsPaginaAdmin.nomePagina}${item}/:id`}
-                        path={`${paginaBaseAdmin}${itemsPaginaAdmin.nomePagina}/${item}/:id`}
+                        path={`${paginaBaseAdmin}${item}/:id`}
                         element={<Component />} />
                     </>
                   );
