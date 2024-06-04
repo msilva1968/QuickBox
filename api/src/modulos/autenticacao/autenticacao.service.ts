@@ -47,6 +47,8 @@ export class AutenticacaoService {
 
     return {
       token_acesso: await this.jwtService.signAsync(payload),
+      id: usuario.id,
+      nome: usuario.nome
     };
   }
 }

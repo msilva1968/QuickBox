@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { IItemPagina } from '../../Interfaces/IItemPagina';
 import { useSetItemPagina } from '../../state/hooks/useSetItemPagina';
 import { useToken } from '../../state/hooks/useToken';
+import { useIdLogado } from '../../state/hooks/useIdLogado';
 
 const NavBar = () => {
   const setItemPagina = useSetItemPagina()
@@ -47,6 +48,7 @@ const NavBar = () => {
       >
         Login
       </Link>
+      <label className={estilos.Label}>{tokenLogin}: {useIdLogado().nome}</label>
     </ul>
   </nav>)
 }

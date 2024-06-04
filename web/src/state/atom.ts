@@ -10,3 +10,8 @@ export const token = atom<string>({
         key: 'token', 
         default: '' 
     })
+
+export const idLogado = atom({
+        key: 'idLogado', 
+        default: { id: '', nome: '' }
+    })

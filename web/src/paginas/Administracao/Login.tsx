@@ -4,12 +4,14 @@ import { TipoLoginEnum } from "../../types/tipo-login.enum";
 import { ILogin } from "../../Interfaces/ILogin";
 import { useState } from "react";
 import { useSetToken } from "../../state/hooks/useSetToken";
+import { useSetIdLogado } from "../../state/hooks/useSetIdLogado";
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [tipo, setTipo] = useState(TipoLoginEnum.EMPRESA);
     const tokenSet = useSetToken();
+    const idLogadoSet = useSetIdLogado();
 
     const aoSubmeter = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -22,6 +24,7 @@ const Login = () => {
             .post(`/autenticacao/login`, login)
             .then((resposta) => {
                 tokenSet(tipo);
+                idLogadoSet({ id: resposta.data.id, nome: resposta.data.nome});
                 alert('Login efetuado com sucesso!');
             })
             .catch(error => {

@@ -1,5 +1,5 @@
 import {  selector } from "recoil";
-import { itemPagina, token } from "../atom";
+import { idLogado, itemPagina, token } from "../atom";
 
 export const itemPaginaGet = selector({
   key: 'itemPagina',
@@ -10,3 +10,8 @@ export const tokenGet = selector({
   key: 'token',
   get: ({ get }) => get(token)
 });
+
+export const idLogadoGet = selector({
+  key: 'idLogado',
+  get: ({ get }) => get(idLogado)
+})

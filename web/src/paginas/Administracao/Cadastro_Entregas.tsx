@@ -2,12 +2,12 @@ import { Box, Button, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import http from "../../http"
 import IEntrega from "../../Interfaces/IEntrega";
-import { useItemPagina } from "../../state/hooks/useItemPagina";
 import { useParams } from "react-router-dom";
+import { useIdLogado } from "../../state/hooks/useIdLogado";
 
 const Entregas = () => {
 
-    const [clienteId, setClienteId] = useState('');
+    const clienteId = useIdLogado().id;
     const [cep, setCep] = useState('');
     const [bairro, setBairro] = useState('');
     const [cidade, setCidade] = useState('');
@@ -20,14 +20,12 @@ const Entregas = () => {
     const [largura, setLargura] = useState('');
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
-    const itemsPaginaAdmin = useItemPagina();
     const [parametros] = useState(useParams());
     
     useEffect(()=>{
         if(parametros.id){
             http.get<IEntrega>(`entrega/${parametros.id}/`)
                 .then(resposta => {
-                    setClienteId(resposta.data.clienteId);
                     setCep(resposta.data.cep);
                     setBairro(resposta.data.bairro);
                     setCidade(resposta.data.cidade);
@@ -63,7 +61,6 @@ const Entregas = () => {
                 longitude
             })
                 .then(resposta => {
-                    setClienteId('');
                     setCep('');
                     setBairro('');
                     setCidade('');
@@ -96,7 +93,6 @@ const Entregas = () => {
                 longitude
             })
                 .then(resposta => {
-                    setClienteId('');
                     setCep('');
                     setBairro('');
                     setCidade('');
@@ -119,17 +115,6 @@ const Entregas = () => {
         <Box sx={{ display: 'flex', flexDirection: "column", alignItems: "center", flexGrow: 1 }}>
             <Typography component="h1" color="primary" variant="h6">Cadastro de Entregas</Typography>
             <Box component="form" sx={{ width: '70%' }} onSubmit={aoSubmeterForm}>
-                <TextField
-                    value={clienteId}
-                    onChange={event => setClienteId(event.target.value)}
-                    id="clienteId"
-                    label="ClienteId"
-                    variant="outlined"
-                    name="clienteId"
-                    margin="normal"
-                    fullWidth
-                    required
-                />
                 <TextField
                     value={cep}
                     onChange={event => setCep(event.target.value)}
