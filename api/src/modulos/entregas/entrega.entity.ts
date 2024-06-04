@@ -10,6 +10,9 @@ export class EntregaEntity {
   @Column({ name: 'cliente_id',  nullable: false })
   clienteId: string;
 
+  @Column({ name: 'entregador_id',  nullable: true })
+  entregadorId: string;
+
   @Column({ name: 'cep', length: 8, nullable: false })
   cep: string;
 

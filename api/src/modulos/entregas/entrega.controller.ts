@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
 import { CriaEntregaDTO } from "./dto/CriaEntrega.dto";
 import { EntregaService } from "./Entrega.service";
 import { EntregaEntity } from "./entrega.entity";
@@ -13,6 +13,17 @@ export class EntregaController {
   @Post()
   create(@Body() criaEntregaDTO: CriaEntregaDTO): Promise<EntregaEntity> {
     return this.entregaService.criaEntrega(criaEntregaDTO);
+  }
+
+  @Get('/empresa/:clienteId')
+  async listaEntregaPorEmpresa(@Param('clienteId') clienteId: string) {
+    const entregas = await this.entregaService.listaEntregaPorEmpresa(clienteId);
+    return entregas;
+  }
+  @Get('/entregador/:EntregadorId')
+  async listaEntregaPorEntregador(@Param('EntregadorId') EntregadorId: string) {
+    const entregas = await this.entregaService.listaEntregaPorEntregador(EntregadorId);
+    return entregas;
   }
 
   @Put('/:codigoConfirmacao')

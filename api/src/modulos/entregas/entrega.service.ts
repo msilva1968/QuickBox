@@ -22,7 +22,7 @@ export class EntregaService {
     entregaEntity.codigoEntrega =  await this.gerarCodigoEntrega(entregaEntity);
     entregaEntity.codigoConfirmacao = await this.gerarCodigoRandom();
     entregaEntity.codigoColeta =  await this.gerarCodigoRandom();
-    return this.entregaRepository.save(entregaEntity);
+    return await this.entregaRepository.save(entregaEntity);
 
   }
 
@@ -61,6 +61,23 @@ export class EntregaService {
     entrega.status = StatusEntrega.ENTREGUE;
 
     return await this.salvar(entrega);
+  }
+
+   public async listaEntregaPorEntregador(entregadorId: string) {
+    const entregas = await this.entregaRepository.findBy({entregadorId});
+
+    if (!entregas) {
+      throw new NotFoundException('Não existe entrega!');
+    }
+    return entregas;
+  }
+  public async listaEntregaPorEmpresa(clienteId: string) {
+    const entregas = await this.entregaRepository.findBy({clienteId});
+
+    if (!entregas) {
+      throw new NotFoundException('Não existe entrega!');
+    }
+    return entregas;
   }
 
   private async gerarSequencial()
