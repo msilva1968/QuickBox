@@ -34,5 +34,27 @@
                 }
             }
         }
+        .Botao {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            background-color:  #1b1ed6;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            border: #000 solid 1px;
+            transition: all linear 160ms;
+            cursor: pointer;
+            margin: 1%;
+
+            &:hover {
+                background-color: #fff;
+                color: #1b1ed6;
+            }
+        
+        }
     }
+
 }
+

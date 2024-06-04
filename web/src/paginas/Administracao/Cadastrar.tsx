@@ -79,7 +79,7 @@ const Cadastrar_Alterar = () => {
                         setSenha('');
                         setEndereco('');
                     })
-                    .catch(erro => alert(JSON.stringify(erro)));
+                    .catch(erro => alert(JSON.stringify(erro.response.data.message)));
             } else {
                 http.put<ICliente>(`cliente/${parametros.id}/`, {
                     nome: nome,
@@ -109,7 +109,7 @@ const Cadastrar_Alterar = () => {
                         setNumero('');
                         setComplemento('');
                     })
-                    .catch(erro => alert(JSON.stringify(erro)));
+                    .catch(erro => alert(JSON.stringify(erro.response.data.message)));
             }
         } else {
             if (itemsPaginaAdmin.nomePagina === 'Entregadores') {
@@ -129,7 +129,7 @@ const Cadastrar_Alterar = () => {
                         setSenha('');
                         setEndereco('');
                     })
-                    .catch(erro => alert(JSON.stringify(erro)));
+                    .catch(erro => alert(JSON.stringify(erro.response.data.message)));
             } else {
                 http.post<ICliente>('cliente/', {
                     nome: nome,
@@ -159,7 +159,7 @@ const Cadastrar_Alterar = () => {
                         setNumero('');
                         setComplemento('');
                     })
-                    .catch(erro => alert(JSON.stringify(erro)));
+                    .catch(erro => alert(JSON.stringify(erro.response.data.message)));
             }
         }
 
@@ -167,7 +167,7 @@ const Cadastrar_Alterar = () => {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: "column", alignItems: "center", flexGrow: 1 }}>
-            <Typography component="h1" variant="h6">Formulário de {itemsPaginaAdmin.nomePagina}</Typography>
+            <Typography component="h1" variant="h6" color="primary">Formulário {itemsPaginaAdmin.nomePagina}</Typography>
             <Box component="form" sx={{ width: '70%' }} onSubmit={aoSubmeterForm}>
                 <TextField
                     value={nome}

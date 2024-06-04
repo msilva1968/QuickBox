@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common"
 import { EntregadorService } from "./entregador.service";
 import { CriaEntregadorDTO } from "./dto/CriaEntregador.dto";
 import { AtualizaEntregadorDTO } from "./dto/AtualizaEntregador.dto";
-
+import { HashSenhaPipe } from "src/recursos/pipes/hash-senha-pipe";
 
 @Controller('entregador')
 export class EntregadorController {
@@ -11,8 +11,12 @@ export class EntregadorController {
   ) { }
 
   @Post()
-  async criarEntregador(@Body() dadosEntregador: CriaEntregadorDTO) {
-    const novoEntregador = await this.entregadorService.criarEntregador(dadosEntregador);
+  async criarEntregador(
+    @Body() { senha, ...dadosEntregador }: CriaEntregadorDTO,
+    @Body('senha', HashSenhaPipe) senhaHasheada: string) {
+    const novoEntregador = await this.entregadorService.criarEntregador(
+      { ...dadosEntregador, senha: senhaHasheada },
+    );
 
     return {
         entregador: novoEntregador,

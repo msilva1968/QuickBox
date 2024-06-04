@@ -5,3 +5,8 @@ export const itemPagina = atom<IItemPagina>({
     key: 'itemPagina', 
     default: { nomePagina: 'Home', menu: ['Home'] }
     })
+
+export const token = atom<string>({
+        key: 'token', 
+        default: '' 
+    })

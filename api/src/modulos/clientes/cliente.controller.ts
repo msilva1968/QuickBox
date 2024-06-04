@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common"
 import { CriaClienteDTO } from "./dto/CriaCliente.dto";
 import { AtualizaClienteDTO } from "./dto/AtualizaCliente.dto";
 import { ClienteService } from "./cliente.service";
+import { HashSenhaPipe } from "src/recursos/pipes/hash-senha-pipe";
 
 @Controller('cliente')
 export class ClienteController {
@@ -10,8 +11,12 @@ export class ClienteController {
   ) { }
 
   @Post()
-  async criarCliente(@Body() dadosCliente: CriaClienteDTO) {
-    const novoCliente = await this.clienteService.criarCliente(dadosCliente);
+  async criarCliente(
+    @Body() { senha, ...dadosCliente }: CriaClienteDTO,
+    @Body('senha', HashSenhaPipe) senhaHasheada: string){
+    const novoCliente = await this.clienteService.criarCliente(
+      { ...dadosCliente, senha: senhaHasheada },
+    );
 
     return {
       cliente: novoCliente,

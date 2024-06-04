@@ -9,6 +9,6 @@ import { EntregadorController } from './entregador.controller';
     imports: [TypeOrmModule.forFeature([EntregadorEntity])],
     controllers: [EntregadorController],
     providers: [EntregadorService],
-
+    exports: [EntregadorService],
 })
 export class EntregadorModule { }

@@ -6,6 +6,7 @@ import PaginaBase from './componentes/PaginaBase';
 import React, { Suspense } from 'react';
 import { paginaBaseAdmin } from './types/PaginaAdministracao';
 import { useItemPagina } from './state/hooks/useItemPagina';
+import Login from './paginas/Administracao/Login';
 
 function App() {
   const itemsPaginaAdmin = useItemPagina()
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<PaginaBase />} >
               <Route index element={<Home />} />
+              <Route path={"/login"} element={<Login />} />
               <Route path={`${paginaBaseAdmin}`} element={<PaginaBaseAdmin />} >
                 {itemsPaginaAdmin.menu.map(item => {
                   const Component = React.lazy(() => import(`./paginas/Administracao/${item}`));
