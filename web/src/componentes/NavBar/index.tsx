@@ -1,18 +1,29 @@
 
 import estilos from './NavBar.module.scss';
-import { Link } from 'react-router-dom'
+import { Link  } from 'react-router-dom'
 import { IItemPagina } from '../../Interfaces/IItemPagina';
 import { useSetItemPagina } from '../../state/hooks/useSetItemPagina';
 import { useToken } from '../../state/hooks/useToken';
 import { useIdLogado } from '../../state/hooks/useIdLogado';
+import { useSetToken } from '../../state/hooks/useSetToken';
+import { useSetIdLogado } from '../../state/hooks/useSetIdLogado';
 
 const NavBar = () => {
   const setItemPagina = useSetItemPagina()
+  const setTokenLogin = useSetToken()
+  const setIdLogado = useSetIdLogado()
   const tokenLogin = useToken()
+  const idLogado = useIdLogado().nome
+
+
   function quandoClicar(itemPagina: IItemPagina) {
+    if (idLogado.length > 0 && itemPagina.menu[0] === 'Login') {
+      setTokenLogin('');
+      setIdLogado({id: '', nome: ''});
+    } 
     if (itemPagina){
-      setItemPagina(itemPagina);
-    }
+        setItemPagina(itemPagina);
+      }
   }
   return (<nav className={estilos.Link}>
     <ul>
@@ -26,8 +37,7 @@ const NavBar = () => {
             onClick={evento => quandoClicar(
               tokenLogin === 'EMPRESA' ?
               { nomePagina: 'Empresas', menu: 
-            [//'Listar', 
-             'Cadastrar', 
+            ['Dashboard', 
              'Cadastro_Entregas'
              ] } : {nomePagina: 'Empresas', menu: ['Cadastrar'] })} >
             Empresas
@@ -37,18 +47,19 @@ const NavBar = () => {
         <Link to="/admin" 
           onClick={evento => quandoClicar(
             tokenLogin === 'ENTREGADOR' ? { nomePagina: 'Entregadores', menu: 
-          [//'Listar', 
-          'Cadastrar',
-          'Confirmar_Entrega'] } : {nomePagina: 'Entregadores', menu: ['Cadastrar'] })} >
+          [
+            'Dashboard', 
+            'Coletar',
+          ] } : {nomePagina: 'Entregadores', menu: ['Cadastrar'] })} >
           Entregadores
         </Link>
       </li>
       <Link to="/Login" className={estilos.Botao}
           onClick={evento => quandoClicar({ nomePagina: 'Login', menu: ['Login'] })}
       >
-        Login
+        {tokenLogin.length > 0 ? 'Sair' : 'Login'}
       </Link>
-      <label className={estilos.Label}>{tokenLogin}: {useIdLogado().nome}</label>
+      {tokenLogin.length > 0 ? (<label className={estilos.Label}>{tokenLogin}: {idLogado}</label>) : null}
     </ul>
   </nav>)
 }

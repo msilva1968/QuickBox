@@ -22,7 +22,8 @@ export default interface IListaEntrega {
     id: string
     clienteId: string
     status: StatusEntrega
-    codigo_entrega: string
-    codigo_confirmacao: string
-    codigo_coleta: string
+    codigoEntrega: string
+    codigoConfirmacao: string
+    codigoColeta: string
+    entregadorId: string
 }

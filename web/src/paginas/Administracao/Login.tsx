@@ -30,11 +30,12 @@ const Login = () => {
             .catch(error => {
                 alert(error.response.data.message);
             })
+        
     }
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Typography component="h1" variant="h6" color="primary" gutterBottom>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1  }}>
+            <Typography component="h1" variant="h6" color="primary" >
                 Login
             </Typography>
             <Box
