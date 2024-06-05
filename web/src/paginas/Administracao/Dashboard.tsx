@@ -42,15 +42,12 @@ const Dashboard = () => {
                 });
         }
     });
-    const excluir = (ahSerExcluido: IEntrega) => {
-    }    
+/*     const excluir = (ahSerExcluido: IEntrega) => {
+    }     */
 
     const confirmar = (ahSerConfirmado: IEntrega) => {
         
     }
-    const voltar_pendente = (ahSerPendente: IEntrega) => {
-        
-    } 
     const confirmar_entrega = (ahSerConfirmada: IEntrega) => {
         const path= `${paginaBaseAdmin}Confirmar_Entrega`
         navigate(path);
@@ -85,7 +82,7 @@ const Dashboard = () => {
                             <TableCell>
                                 {entrega.codigoColeta}
                             </TableCell>
-                            {entrega.status.toUpperCase() === 'PENDENTE' ? (
+{/*                             {entrega.status.toUpperCase() === 'PENDENTE' ? (
                                 
                                 itemsPaginaAdmin.nomePagina === 'Empresas' ? 
                                 (
@@ -96,23 +93,16 @@ const Dashboard = () => {
                                         </Button>
                                     </TableCell>
                                 ) : null 
-                            ) : null}
+                            ) : null} */}
 
                             {entrega.status.toUpperCase() === 'AGUARDANDO COLETA' ? (
                                 
                                 itemsPaginaAdmin.nomePagina === 'Empresas' ? (
-                                    <>
                                     <TableCell>
                                         <Button variant="outlined" color="error" onClick={() => confirmar( entrega)}>
                                             Confirmar
                                         </Button>
                                     </TableCell>
-                                    <TableCell>
-                                        <Button variant="outlined" color="error" onClick={() => voltar_pendente( entrega)}>
-                                            Voltar Pendente
-                                        </Button>
-                                    </TableCell>
-                                    </>
                                 ) : null ) : null}
                             
                             {entrega.status.toUpperCase() === 'EM ROTA' ? (
