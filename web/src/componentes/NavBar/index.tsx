@@ -37,7 +37,8 @@ const NavBar = () => {
             onClick={evento => quandoClicar(
               tokenLogin === 'EMPRESA' ?
               { nomePagina: 'Empresas', menu: 
-            ['Dashboard', 
+            ['Dados_Cliente',
+             'Dashboard', 
              'Cadastro_Entregas'
              ] } : {nomePagina: 'Empresas', menu: ['Cadastrar'] })} >
             Empresas
@@ -47,7 +48,7 @@ const NavBar = () => {
         <Link to="/admin" 
           onClick={evento => quandoClicar(
             tokenLogin === 'ENTREGADOR' ? { nomePagina: 'Entregadores', menu: 
-          [
+          [ 'Editar',
             'Dashboard', 
             'Coletar',
           ] } : {nomePagina: 'Entregadores', menu: ['Cadastrar'] })} >
