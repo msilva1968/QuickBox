@@ -1,10 +1,11 @@
-import { Box, Button, TextField, Typography } from "@mui/material"
+import { Box, Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import http from "../../http"
 import ICliente from "../../Interfaces/ICliente";
 import IEntregador from "../../Interfaces/IEntegrador";
 import { useParams } from "react-router-dom";
 import { useItemPagina } from "../../state/hooks/useItemPagina";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Cadastrar_Alterar = () => {
 
@@ -25,6 +26,7 @@ const Cadastrar_Alterar = () => {
     const [endereco, setEndereco] = useState('');
     const itemsPaginaAdmin = useItemPagina();
     const [parametros] = useState(useParams());
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
         if (parametros.id) {
@@ -190,16 +192,28 @@ const Cadastrar_Alterar = () => {
                     required
                 />
                 <TextField
-                    value={senha}
-                    onChange={event => setSenha(event.target.value)}
                     id="senha"
                     label="Senha"
                     variant="outlined"
-                    name="senha"
-                    margin="normal"
-                    type="password"
-                    fullWidth
+                    value={senha}
+                    onChange={e => setSenha(e.target.value)}
                     required
+                    type={showPassword ? 'text' : 'password'}
+                    fullWidth
+                    margin="normal"
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    edge="end"
+                                >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
                 {itemsPaginaAdmin.nomePagina === 'Entregadores' && (
                     <>

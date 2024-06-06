@@ -1,10 +1,11 @@
-import { Box, Button, MenuItem,  Select, TextField, Typography } from "@mui/material"
+import { Box, Button, IconButton, InputAdornment, MenuItem,  Select, TextField, Typography } from "@mui/material"
 import http from "../../http"
 import { TipoLoginEnum } from "../../types/tipo-login.enum";
 import { ILogin } from "../../Interfaces/ILogin";
 import { useState } from "react";
 import { useSetToken } from "../../state/hooks/useSetToken";
 import { useSetIdLogado } from "../../state/hooks/useSetIdLogado";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -12,6 +13,7 @@ const Login = () => {
     const [tipo, setTipo] = useState(TipoLoginEnum.EMPRESA);
     const tokenSet = useSetToken();
     const idLogadoSet = useSetIdLogado();
+    const [showPassword, setShowPassword] = useState(false);
 
     const aoSubmeter = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -60,12 +62,23 @@ const Login = () => {
                     value={senha}
                     onChange={e => setSenha(e.target.value)}
                     required
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     fullWidth
                     margin="normal"
-                    
-                />
-                
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    edge="end"
+                                >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />                
                 <Select
                     id="tipo"
                     name="tipo"
