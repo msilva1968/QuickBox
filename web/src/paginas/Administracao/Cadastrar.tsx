@@ -197,6 +197,7 @@ const Cadastrar_Alterar = () => {
                     variant="outlined"
                     name="senha"
                     margin="normal"
+                    type="password"
                     fullWidth
                     required
                 />
