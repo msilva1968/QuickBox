@@ -15,6 +15,7 @@ const ListarClientes = () => {
 
     useEffect(() => {
         http.get<ICliente[]>(`cliente/${idLogado}`)
+//        http.get<ICliente[]>('cliente/')
             .then(resposta => setClientes(resposta.data))
     })
 

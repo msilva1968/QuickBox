@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PaginaBaseAdmin from './paginas/Administracao/PaginaBaseAdmin';
 import Home from './paginas/Home';

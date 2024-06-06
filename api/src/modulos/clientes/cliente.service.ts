@@ -20,7 +20,7 @@ export class ClienteService {
     return this.clienteRepository.findOneBy({ email });
   }
   
-  private async buscarPorId(id: string) {
+  async buscarPorId(id: string) {
     const existeCliente = await this.clienteRepository.findOneBy({ id });
 
     if (!existeCliente) {
@@ -35,11 +35,6 @@ export class ClienteService {
 
   async listarClientes() {
     return await this.clienteRepository.find();
-  }
-
-  async buscarClientePorId(id: string) {
-    const cliente = await this.buscarPorId(id);
-    return cliente;
   }
 
   async atualizarCliente(id: string, dadosCliente: Partial<ClienteEntity>) {

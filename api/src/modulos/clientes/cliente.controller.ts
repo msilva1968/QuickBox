@@ -32,7 +32,7 @@ export class ClienteController {
 
   @Get('/:id')
   async buscaPorId(@Param('id') id: string) {
-    const cliente = await this.clienteService.buscarClientePorId(id);
+    const cliente = await this.clienteService.buscarPorId(id);
     return cliente;
   }
 
