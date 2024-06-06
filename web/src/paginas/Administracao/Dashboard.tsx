@@ -1,7 +1,6 @@
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import { useEffect, useState } from "react"
 import http from "../../http"
-
 import { useItemPagina } from "../../state/hooks/useItemPagina"
 import IListaEntrega from "../../Interfaces/IEntrega"
 import { useIdLogado } from "../../state/hooks/useIdLogado"
@@ -41,9 +40,7 @@ const Dashboard = () => {
                     alert(error.response.data.message)
                 });
         }
-    });
-/*     const excluir = (ahSerExcluido: IEntrega) => {
-    }     */
+    },[entregas, id, itemsPaginaAdmin.nomePagina]);
 
     const confirmar = (ahSerConfirmado: IEntrega) => {
         

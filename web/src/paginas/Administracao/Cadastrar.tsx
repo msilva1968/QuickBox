@@ -35,16 +35,14 @@ const Cadastrar_Alterar = () => {
                         setCpf(resposta.data.cpf);
                         setCnh(resposta.data.cnh);
                         setEmail(resposta.data.email);
-                        setSenha(resposta.data.senha);
                         setEndereco(resposta.data.endereco);
                     })
             } else {
-                http.get<ICliente>(`cliente/${parametros.id}/`)
+                http.get<ICliente>(`cliente/editacliente/${parametros.id}/`)
                     .then((resposta) => {
                         setNome(resposta.data.nome);
                         setCnpj(resposta.data.cnpj);
                         setEmail(resposta.data.email);
-                        setSenha(resposta.data.senha);
                         setCoordenada(resposta.data.coordenada);
                         setCep(resposta.data.cep);
                         setBairro(resposta.data.bairro);

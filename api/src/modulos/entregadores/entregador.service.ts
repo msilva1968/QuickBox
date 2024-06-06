@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { EntregadorEntity } from "./entregador.entity";
@@ -30,6 +30,11 @@ export class EntregadorService {
         return existeEntregador;
       }
 
+      async buscarEntregador(id: string) {
+        const cliente = await this.entregadorRepository.findBy({ id });
+        return cliente;
+      }
+      
       async salvarEntregador(entregadorEntity: EntregadorEntity) {
         return await this.salvar(entregadorEntity);
       }

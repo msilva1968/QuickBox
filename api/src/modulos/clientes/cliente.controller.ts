@@ -32,6 +32,12 @@ export class ClienteController {
 
   @Get('/:id')
   async buscaPorId(@Param('id') id: string) {
+    const cliente = await this.clienteService.buscarClientePorId(id);
+    return cliente;
+  }
+
+  @Get('editacliente/:id')
+  async editaCliente(@Param('id') id: string) {
     const cliente = await this.clienteService.buscarPorId(id);
     return cliente;
   }
@@ -40,10 +46,11 @@ export class ClienteController {
   async atualiza(
     @Param('id') id: string,
     @Body() dadosCliente: AtualizaClienteDTO,
-  ) {
+    @Body('senha', HashSenhaPipe) senhaHasheada: string) 
+    {
     const clienteAlterado = await this.clienteService.atualizarCliente(
       id,
-      dadosCliente,
+      { ...dadosCliente, senha: senhaHasheada },
     );
 
     return {

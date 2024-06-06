@@ -13,7 +13,8 @@ export class EntregadorController {
   @Post()
   async criarEntregador(
     @Body() { senha, ...dadosEntregador }: CriaEntregadorDTO,
-    @Body('senha', HashSenhaPipe) senhaHasheada: string) {
+    @Body('senha', HashSenhaPipe) senhaHasheada: string) 
+    {
     const novoEntregador = await this.entregadorService.criarEntregador(
       { ...dadosEntregador, senha: senhaHasheada },
     );
@@ -30,6 +31,11 @@ export class EntregadorController {
     return listaEntregador;
   }
 
+  @Get('editaentregador/:id')
+  async editaEntregador(@Param('id') id: string) {
+    const cliente = await this.entregadorService.buscarEntregador(id);
+    return cliente;
+  }
 
   @Get('/:id')
   async buscaPorId(@Param('id') id: string) {
@@ -41,10 +47,10 @@ export class EntregadorController {
   async atualiza(
     @Param('id') id: string,
     @Body() dadosEntregador: AtualizaEntregadorDTO,
-  ) {
+    @Body('senha', HashSenhaPipe) senhaHasheada: string)     {
     const entregadorAlterado = await this.entregadorService.atualizarEntregador(
       id,
-      dadosEntregador,
+      { ...dadosEntregador, senha: senhaHasheada },
     );
       return {
       mensagem: 'Entregador atualizado com sucesso!',

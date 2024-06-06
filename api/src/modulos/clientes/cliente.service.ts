@@ -37,6 +37,11 @@ export class ClienteService {
     return await this.clienteRepository.find();
   }
 
+  async buscarClientePorId(id: string) {
+    const cliente = await this.clienteRepository.findBy({ id });
+    return cliente;
+  }
+
   async atualizarCliente(id: string, dadosCliente: Partial<ClienteEntity>) {
     const dadosNaoAtualizaveis = ['id', 'clienteId'];
     const cliente = await this.buscarPorId(id);

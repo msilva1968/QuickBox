@@ -2,22 +2,19 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { useEffect, useState } from "react"
 import http from "../../http"
 import { Link as RouterLink } from 'react-router-dom'
-import ICliente from "../../Interfaces/ICliente"
-import { useItemPagina } from "../../state/hooks/useItemPagina"
 import { paginaBaseAdmin } from "../../types/PaginaAdministracao"
 import { useIdLogado } from '../../state/hooks/useIdLogado';
+import IEntregador from "../../Interfaces/IEntegrador"
 
-const ListarClientes = () => {
+const ListarEntregador = () => {
 
-    const [clientes, setClientes] = useState<ICliente[]>([])
-    const itemsPaginaAdmin = useItemPagina()
+    const [entregador, setEntregador] = useState<IEntregador[]>([])
     const idLogado = useIdLogado().id
 
     useEffect(() => {
-        http.get<ICliente[]>(`cliente/${idLogado}`)
-//        http.get<ICliente[]>('cliente/')
-            .then(resposta => setClientes(resposta.data))
-    })
+        http.get<IEntregador[]>(`entregador/editaentregador/${idLogado}`)
+            .then(resposta => setEntregador(resposta.data))
+    },[entregador,idLogado])
 
     return (
         <TableContainer component={Paper}>
@@ -28,7 +25,7 @@ const ListarClientes = () => {
                             Nome
                         </TableCell>
                         <TableCell>
-                            Cnpj
+                            CPF
                         </TableCell>
                         <TableCell>
                             Email
@@ -39,18 +36,18 @@ const ListarClientes = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {clientes.map((cliente: any ) => (<TableRow key={cliente.id}>
+                    {entregador.map((entregador: any ) => (<TableRow key={entregador.id}>
                         <TableCell>
-                            {cliente.nome}
+                            {entregador.nome}
                         </TableCell>
                         <TableCell>
-                            {cliente.cnpj}
+                            {entregador.cpf}
                         </TableCell>
                         <TableCell>
-                            {cliente.email}
+                            {entregador.email}
                         </TableCell>
                         <TableCell>
-                            [ <RouterLink to={`${paginaBaseAdmin}${itemsPaginaAdmin.nomePagina}/Cadastrar/${cliente.id}`}
+                            [ <RouterLink to={`${paginaBaseAdmin}Cadastrar/${entregador.id}`}
                             >editar</RouterLink> ]
                         </TableCell>
                     </TableRow>))}
@@ -60,4 +57,4 @@ const ListarClientes = () => {
     )
 }
 
-export default ListarClientes
+export default ListarEntregador
