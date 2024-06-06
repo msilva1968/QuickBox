@@ -35,13 +35,10 @@ const ListarClientes = () => {
                         <TableCell>
                             Editar
                         </TableCell>
-                        <TableCell>
-                            Excluir
-                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {clientes.map((cliente: any ) => <TableRow key={cliente.id}>
+                    {clientes.map((cliente: any ) => (<TableRow key={cliente.id}>
                         <TableCell>
                             {cliente.nome}
                         </TableCell>
@@ -55,7 +52,7 @@ const ListarClientes = () => {
                             [ <RouterLink to={`${paginaBaseAdmin}${itemsPaginaAdmin.nomePagina}/Cadastrar/${cliente.id}`}
                             >editar</RouterLink> ]
                         </TableCell>
-                    </TableRow>)}
+                    </TableRow>))}
                 </TableBody>
             </Table>
         </TableContainer>
