@@ -14,7 +14,7 @@ const ListarEntregador = () => {
     useEffect(() => {
         http.get<IEntregador[]>(`entregador/editaentregador/${idLogado}`)
             .then(resposta => setEntregador(resposta.data))
-    },[entregador,idLogado])
+    },[idLogado])
 
     return (
         <TableContainer component={Paper}>

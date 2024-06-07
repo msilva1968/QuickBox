@@ -4,15 +4,11 @@ import http from "../../http";
 import { useItemPagina } from "../../state/hooks/useItemPagina";
 import IListaEntregador from "../../Interfaces/IEntrega";
 import { useIdLogado } from "../../state/hooks/useIdLogado";
-//import IEntrega from "../../Interfaces/IEntrega";
-//import { useNavigate } from "react-router-dom";
-//import { paginaBaseAdmin } from "../../types/PaginaAdministracao";
 
 const Coletar = () => {
     const {id} = useIdLogado();
     const [entregas, setEntregas] = useState<IListaEntregador[]>([]);
     const itemsPaginaAdmin = useItemPagina();
-//    const navigate = useNavigate();
 
     const [open, setOpen] = useState(true);
     const [inputValue, setInputValue] = useState('');
@@ -21,7 +17,7 @@ const Coletar = () => {
     const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     useEffect(() => {
-        if (itemsPaginaAdmin.nomePagina === 'Entregadores' ) {
+        if (itemsPaginaAdmin.nomePagina === 'Entregadores' && infoProvided) {
             http.get(`entrega/localizacao/${inputValue}`)
                 .then(resposta => {
                     const entregas: IListaEntregador[] = [];
@@ -29,10 +25,10 @@ const Coletar = () => {
                     setEntregas(entregas);
                 })
                 .catch(error => {
-                    alert(error.response.data.message);
+                    alert('Ocorreu um erro inesperado!');
                 });
         }
-    }, [id, itemsPaginaAdmin.nomePagina, infoProvided, entregas, inputValue]);
+    }, [itemsPaginaAdmin.nomePagina, infoProvided,inputValue]);
 
     const handleConfirm = () => {
         if (inputValue.trim() === '') {
@@ -52,12 +48,6 @@ const Coletar = () => {
         setShowErrorMessage(true);
     };
 
-//    const handlePageClick = () => {
-//        if (!infoProvided) {
-//            setOpen(true);
-//        }
-//    };
-   
     const handleCollect=(idEntrega:number)=> {
         http.put(`entrega/aguardandoEntrega/${idEntrega}/${id}`, {
                 })

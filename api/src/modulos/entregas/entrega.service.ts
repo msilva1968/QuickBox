@@ -169,8 +169,6 @@ export class EntregaService {
       };
     });
 
-    console.log(distanciaBusca)
-    
     coordenadas.sort((a, b) => a.distancia - b.distancia);
 
     const listaFinal = coordenadas.filter((estaProximo) => estaProximo.distancia < distanciaBusca);

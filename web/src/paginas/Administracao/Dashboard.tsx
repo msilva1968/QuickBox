@@ -41,7 +41,7 @@ const Dashboard = () => {
                     alert(error.response.data.message)
                 });
         }
-    },[itemsPaginaAdmin, id, entregas]);
+    },[itemsPaginaAdmin, id]);
 
     const confirmar = (ahSerConfirmado: number) => {
 
