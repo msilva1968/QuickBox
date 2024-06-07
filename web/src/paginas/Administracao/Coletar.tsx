@@ -1,19 +1,18 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import http from "../../http";
-
 import { useItemPagina } from "../../state/hooks/useItemPagina";
 import IListaEntregador from "../../Interfaces/IEntrega";
 import { useIdLogado } from "../../state/hooks/useIdLogado";
-import IEntrega from "../../Interfaces/IEntrega";
-import { useNavigate } from "react-router-dom";
-import { paginaBaseAdmin } from "../../types/PaginaAdministracao";
+//import IEntrega from "../../Interfaces/IEntrega";
+//import { useNavigate } from "react-router-dom";
+//import { paginaBaseAdmin } from "../../types/PaginaAdministracao";
 
 const Coletar = () => {
     const {id} = useIdLogado();
     const [entregas, setEntregas] = useState<IListaEntregador[]>([]);
     const itemsPaginaAdmin = useItemPagina();
-    const navigate = useNavigate();
+//    const navigate = useNavigate();
 
     const [open, setOpen] = useState(true);
     const [inputValue, setInputValue] = useState('');
@@ -22,7 +21,7 @@ const Coletar = () => {
     const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     useEffect(() => {
-        if (itemsPaginaAdmin.nomePagina === 'Entregadores' && infoProvided) {
+        if (itemsPaginaAdmin.nomePagina === 'Entregadores' ) {
             http.get(`entrega/localizacao/${inputValue}`)
                 .then(resposta => {
                     const entregas: IListaEntregador[] = [];
@@ -33,7 +32,7 @@ const Coletar = () => {
                     alert(error.response.data.message);
                 });
         }
-    }, [id, itemsPaginaAdmin.nomePagina, infoProvided, entregas]);
+    }, [id, itemsPaginaAdmin.nomePagina, infoProvided, entregas, inputValue]);
 
     const handleConfirm = () => {
         if (inputValue.trim() === '') {
@@ -53,13 +52,12 @@ const Coletar = () => {
         setShowErrorMessage(true);
     };
 
-    const handlePageClick = () => {
-        if (!infoProvided) {
-            setOpen(true);
-        }
-    };
-
-    
+//    const handlePageClick = () => {
+//        if (!infoProvided) {
+//            setOpen(true);
+//        }
+//    };
+   
     const handleCollect=(idEntrega:number)=> {
         http.put(`entrega/aguardandoEntrega/${idEntrega}/${id}`, {
                 })

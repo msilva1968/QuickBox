@@ -5,11 +5,14 @@ import { CriaEntregaDTO } from "./dto/CriaEntrega.dto";
 import { EntregaEntity } from "./entrega.entity";
 import { StatusEntrega } from "src/utils/enums/status-entrega.enum";
 import { ClienteEntity } from "../clientes/cliente.entity";
+import { ConfigService } from "@nestjs/config";
+import { Console } from "console";
 
 
 @Injectable()
 export class EntregaService {
   constructor(
+    private configService: ConfigService,
     @InjectRepository(EntregaEntity)
     private entregaRepository: Repository<EntregaEntity>,
     @InjectRepository(ClienteEntity)
@@ -127,7 +130,9 @@ export class EntregaService {
   async buscarEntregaPorLocalizacao(localizacao: string) {
     const status = StatusEntrega.PENDENTE;
     const existeEntrega = await this.entregaRepository.findBy({ status });
-
+    const distanciaBusca = this.configService.get<number>('DISTANCIA_BUSCA');
+    const qtd_lista_pendente = this.configService.get<number>('QTD_LISTA_PENDENTE');
+    
     if (!existeEntrega) {
       throw new NotFoundException('Entrega não existe');
     }
@@ -164,11 +169,13 @@ export class EntregaService {
       };
     });
 
+    console.log(distanciaBusca)
+    
     coordenadas.sort((a, b) => a.distancia - b.distancia);
 
-    const listaFinal = coordenadas.filter((proxima) => proxima.distancia < 20);
+    const listaFinal = coordenadas.filter((estaProximo) => estaProximo.distancia < distanciaBusca);
 
-    return listaFinal.slice(0, 5);
+    return listaFinal.slice(0, qtd_lista_pendente);
 
 
   }
