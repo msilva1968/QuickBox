@@ -14,23 +14,23 @@ export class EntregaService {
     private entregaRepository: Repository<EntregaEntity>,
     @InjectRepository(ClienteEntity)
     private readonly clienteRepository: Repository<ClienteEntity>,
-   
-  ) {}
+
+  ) { }
 
   async criaEntrega(criaEntregaDTO: CriaEntregaDTO): Promise<EntregaEntity> {
     const entregaEntity = new EntregaEntity();
     Object.assign(entregaEntity, criaEntregaDTO);
     entregaEntity.status = StatusEntrega.PENDENTE;
     entregaEntity.id = await this.gerarSequencial();
-    entregaEntity.codigoEntrega =  await this.gerarCodigoEntrega(entregaEntity);
+    entregaEntity.codigoEntrega = await this.gerarCodigoEntrega(entregaEntity);
     entregaEntity.codigoConfirmacao = await this.gerarCodigoRandom();
-    entregaEntity.codigoColeta =  await this.gerarCodigoRandom();
+    entregaEntity.codigoColeta = await this.gerarCodigoRandom();
     return this.entregaRepository.save(entregaEntity);
 
   }
 
   private async gerarCodigoEntrega(entregaEntity: EntregaEntity): Promise<string> {
-    
+
     return `${entregaEntity.estado.toUpperCase()}${entregaEntity.id.toString().padStart(6, '0')}`;
   }
 
@@ -66,14 +66,6 @@ export class EntregaService {
     return await this.salvar(entrega);
   }
 
-  //async atualizarAguardandoEntrega(aguardandoEntrega: string) {
-//
-  //  const entrega = await this.entregaRepository.findby(aguardandoEntrega);
-//
-  //  entrega.status = StatusEntrega.AGUARDANDO;
-//
-  //  return await this.salvar(entrega);
-  //}
 
   private async buscarPorId(id: number) {
     const existeEntrega = await this.entregaRepository.findOneBy({ id });
@@ -84,15 +76,16 @@ export class EntregaService {
     return existeEntrega;
   }
 
-  async atualizarAguardandoEntrega(id: number) {
+  async atualizarAguardandoEntrega(id: number, id_entregador: string) {
     const entrega = await this.buscarPorId(id);
 
     entrega.status = StatusEntrega.AGUARDANDO;
+    entrega.entregadorId = id_entregador;
 
     return await this.salvar(entrega);
   }
 
-  async atualizarRotaEntrega(id: number) {
+  async confirmarColeta(id: number) {
     const entrega = await this.buscarPorId(id);
 
     entrega.status = StatusEntrega.EM_ROTA;
@@ -101,7 +94,7 @@ export class EntregaService {
   }
 
   public async listaEntregaPorEntregador(entregadorId: string) {
-    const entregas = await this.entregaRepository.findBy({entregadorId});
+    const entregas = await this.entregaRepository.findBy({ entregadorId });
 
     if (!entregas) {
       throw new NotFoundException('Não existe entrega!');
@@ -109,7 +102,7 @@ export class EntregaService {
     return entregas;
   }
   public async listaEntregaPorEmpresa(clienteId: string) {
-    const entregas = await this.entregaRepository.findBy({clienteId});
+    const entregas = await this.entregaRepository.findBy({ clienteId });
 
     if (!entregas) {
       throw new NotFoundException('Não existe entrega!');
@@ -117,11 +110,10 @@ export class EntregaService {
     return entregas;
   }
 
-  private async gerarSequencial()
-  {
-    var entrega= await this.entregaRepository.maximum("id");
+  private async gerarSequencial() {
+    var entrega = await this.entregaRepository.maximum("id");
 
-    if(entrega)
+    if (entrega)
       return entrega + 1;
 
     return 1;
@@ -132,39 +124,53 @@ export class EntregaService {
     return await this.entregaRepository.find();
   }
 
-   async buscarEntregaPorLocalizacao(localizacao: string) {
+  async buscarEntregaPorLocalizacao(localizacao: string) {
     const status = StatusEntrega.PENDENTE;
     const existeEntrega = await this.entregaRepository.findBy({ status });
-    console.log(localizacao);
 
     if (!existeEntrega) {
       throw new NotFoundException('Entrega não existe');
     }
 
-     const clienteIds = existeEntrega.map(entrega => entrega.clienteId);
- 
-     const clientes = await this.clienteRepository.createQueryBuilder("cliente")
-     .where("cliente.id IN (:...ids)", { ids: clienteIds })
-     .getMany();
+    const clienteIds = existeEntrega.map(entrega => entrega.clienteId);
+    const entregaIds = existeEntrega.map(entrega => entrega.id);
 
-        const coordenadas = clientes.map(cliente => {
-        const distancia = calcularDistancia(localizacao, cliente.coordenada);
-        return {
-          entregaId: existeEntrega.find(entrega => entrega.clienteId === cliente.id)?.id,
-          clienteId: cliente.id,
-          coordenada: cliente.coordenada,
-          nome: cliente.nome,
-          distancia: distancia // Adicionando ': distancia' para especificar o valor da propriedade
-        };
-      });
-  
-    // Ordenar pelo mais próximo
+    const placeholders = clienteIds.map((_, index) => `($${index * 2 + 1}, $${index * 2 + 2})`).join(', ');
+
+        const query = `
+      SELECT c.*, e.*
+      FROM clientes c
+      JOIN entregas e ON c.id::text = e.cliente_Id
+      WHERE (c.id, e.id) IN (${placeholders})
+    `;
+
+    const parametros = [];
+    clienteIds.forEach((clienteId, index) => {
+      parametros.push(clienteId, entregaIds[index]);
+    });
+
+    const clientes = await this.clienteRepository.query(query, parametros);
+
+    const coordenadas = clientes.map(cliente => {
+
+      const distancia = calcularDistancia(localizacao, cliente.coordenada);
+      return {
+        entregaId: cliente.id,
+        clienteId: cliente.cliente_id,
+        codigo_entrega: cliente.codigo_entrega,
+        coordenada: cliente.coordenada,
+        nome: cliente.nome,
+        distancia: distancia
+      };
+    });
+
     coordenadas.sort((a, b) => a.distancia - b.distancia);
-  
-    // Retornar as 5 mais próximas
-    const cincoMaisProximas = coordenadas.slice(0, 5);
-  
-    return cincoMaisProximas;
+
+    const listaFinal = coordenadas.filter((proxima) => proxima.distancia < 20);
+
+    return listaFinal.slice(0, 5);
+
+
   }
 
 
@@ -180,23 +186,22 @@ function calcularDistancia(localizacao1: string, localizacao2: string): number {
   const deltaLambda = toRadians(lon2 - lon1);
 
   const a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
-            Math.cos(phi1) * Math.cos(phi2) *
-            Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+    Math.cos(phi1) * Math.cos(phi2) *
+    Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-  const distancia = R * c; // Distância em metros
+  const distancia = R * c;
 
-  const distanciaEmKm = distancia / 1000; // Converter para quilômetros
+  const distanciaEmKm = distancia / 1000;
 
-  return distanciaEmKm;
+  return parseFloat(distanciaEmKm.toFixed(2));
 }
 
-  
-  function toRadians(degrees: number): number {
-    return degrees * Math.PI / 180;
-  }
-  
-  
-  
+function toRadians(degrees: number): number {
+  return degrees * Math.PI / 180;
+}
+
+
+
 
 

@@ -19,11 +19,20 @@ export default interface IEntrega {
 }
 
 export default interface IListaEntrega {
-    id: string
+    id: number
     clienteId: string
     status: StatusEntrega
     codigoEntrega: string
     codigoConfirmacao: string
     codigoColeta: string
     entregadorId: string
+}
+
+export default interface IListaEntregador {
+    entregaId: number
+    clienteId: string
+    codigo_entrega: string
+    coordenada: string
+    nome: string
+    distancia: string
 }

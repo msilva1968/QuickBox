@@ -53,12 +53,13 @@ export class EntregaController {
     };
   }
 
-  @Put('/aguardandoEntrega/:aguardandoEntrega')
+  @Put('/aguardandoEntrega/:idEntrega/:entregadorId')
   async aguardandoEntrega(
-    @Param('aguardandoEntrega') aguardandoEntrega: number,
+    @Param('idEntrega') idEntrega: number,
+    @Param('entregadorId') entregadorId: string,
   ) {
     const entregaAguardando = await this.entregaService.atualizarAguardandoEntrega(
-      aguardandoEntrega,
+      idEntrega,entregadorId
     );
 
     return {
@@ -67,17 +68,17 @@ export class EntregaController {
     };
   }
 
-  @Put('/rotaEntrega/:rotaEntrega')
-  async rotaEntrega(
-    @Param('rotaEntrega') rotaEntrega: number,
+  @Put('/confirmarColeta/:idEntrega')
+  async confirmarColeta(
+    @Param('idEntrega') idEntrega: number,
   ) {
-    const entregaAguardando = await this.entregaService.atualizarRotaEntrega(
-      rotaEntrega,
+    const entregaAguardando = await this.entregaService.confirmarColeta(
+      idEntrega,
     );
 
     return {
       mensagem: 'Entrega atualizada com sucesso!',
-      entrega: rotaEntrega,
+      entrega: idEntrega,
     };
   }
 
