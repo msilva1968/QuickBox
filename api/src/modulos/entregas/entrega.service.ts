@@ -60,6 +60,15 @@ export class EntregaService {
     return existeCodigo;
   }
 
+  private async buscarCodigoColeta(codigoColeta: string) {
+    const existeCodigo = await this.entregaRepository.findOneBy({ codigoColeta });
+
+    if (!existeCodigo) {
+      throw new NotFoundException('Código de coleta inválido!');
+    }
+    return existeCodigo;
+  }
+
   async atualizarConfirmacaoEntrega(codigoConfirmacao: string) {
 
     const entrega = await this.buscarCodigoConfirmacao(codigoConfirmacao);
@@ -69,6 +78,14 @@ export class EntregaService {
     return await this.salvar(entrega);
   }
 
+  async atualizarConfirmacaoColeta(codigoConfirmacao: string) {
+
+    const entrega = await this.buscarCodigoColeta(codigoConfirmacao);
+
+    entrega.status = StatusEntrega.EM_ROTA;
+
+    return await this.salvar(entrega);
+  }
 
   private async buscarPorId(id: number) {
     const existeEntrega = await this.entregaRepository.findOneBy({ id });

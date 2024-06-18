@@ -43,7 +43,13 @@ const Dashboard = () => {
         }
     },[itemsPaginaAdmin, id]);
 
-    const confirmar = (ahSerConfirmado: number) => {
+
+    const confirmar = (confirmadaColeta: IEntrega) => {
+        const path= `${paginaBaseAdmin}Confirmar_Coleta`
+        navigate(path);
+    }
+
+/*    const confirmar = (ahSerConfirmado: number) => {
 
         http.put(`entrega/confirmarColeta/${ahSerConfirmado}`, {
         })
@@ -52,7 +58,8 @@ const Dashboard = () => {
         })
         .catch(erro => alert(erro.response.data.message));
         
-    }
+    } */
+
     const confirmar_entrega = (ahSerConfirmada: IEntrega) => {
         const path= `${paginaBaseAdmin}Confirmar_Entrega`
         navigate(path);
@@ -104,8 +111,8 @@ const Dashboard = () => {
                                 
                                 itemsPaginaAdmin.nomePagina === 'Empresas' ? (
                                     <TableCell>
-                                        <Button variant="outlined" color="error" onClick={() => confirmar( entrega.id)}>
-                                            Confirmar
+                                        <Button variant="outlined" color="error" onClick={() => confirmar(entrega)}>
+                                            Confirmar Coleta
                                         </Button>
                                     </TableCell>
                                 ) : null ) : null}
@@ -115,7 +122,7 @@ const Dashboard = () => {
 
                                 itemsPaginaAdmin.nomePagina === 'Entregadores' ? (
                                     <TableCell>
-                                        <Button variant="outlined" color="error" onClick={() => confirmar_entrega( entrega)}>
+                                        <Button variant="outlined" color="error" onClick={() => confirmar_entrega(entrega)}>
                                             Confirmar Entrega
                                         </Button>
                                     </TableCell>

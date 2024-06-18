@@ -53,6 +53,20 @@ export class EntregaController {
     };
   }
 
+  @Put('/confirmacoleta/:codigoConfirmacao')
+  async atualizaColeta(
+    @Param('codigoConfirmacao') codigoConfirmacao: string,
+  ) {
+    const entregaConfirmada = await this.entregaService.atualizarConfirmacaoColeta(
+      codigoConfirmacao,
+    );
+
+    return {
+      mensagem: 'Entrega atualizada com sucesso!',
+      entrega: entregaConfirmada,
+    };
+  }
+
   @Put('/aguardandoEntrega/:idEntrega/:entregadorId')
   async aguardandoEntrega(
     @Param('idEntrega') idEntrega: number,
