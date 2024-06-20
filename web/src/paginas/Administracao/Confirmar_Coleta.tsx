@@ -1,8 +1,10 @@
-import { Box, Button, TextField, Typography } from "@mui/material"
+import { Box, Button, TableBody, TableCell, TableRow, TextField, Typography } from "@mui/material"
 import { useState } from "react"
 import http from "../../http"
+import { useNavigate } from 'react-router-dom';
 
 const ConfirmarColeta = () => {
+    const navigate = useNavigate();
     const [codigoConfirmacao, setCodigoConfirmacao] = useState('');
 
     const aoConfirmarColeta = (
@@ -33,15 +35,32 @@ const ConfirmarColeta = () => {
                     value={codigoConfirmacao}
                     onChange={e => setCodigoConfirmacao(e.target.value)}
                 />
-                <Button
-                    type="button"
-                    variant="contained"
-                    color="primary"
-                    sx={{ mt: 3, mb: 2 }}
-                    onClick={e => aoConfirmarColeta(codigoConfirmacao)}
-                >
-                    Confirmar
-                </Button>
+                <TableBody>
+                    <TableRow>
+                        <TableCell>
+                            <Button
+                                type="button"
+                                variant="contained"
+                                color="primary"
+                                sx={{ mt: 3, mb: 2 }}
+                                onClick={e => aoConfirmarColeta(codigoConfirmacao)}
+                            >
+                                Confirmar
+                            </Button>
+                        </TableCell>
+                        <TableCell>
+                            <Button
+                                type="button"
+                                variant="contained"
+                                color="primary"
+                                sx={{ mt: 3, mb: 2 }}
+                                onClick={() => navigate(-1)}
+                            >
+                                Voltar
+                            </Button>            
+                       </TableCell>
+                    </TableRow>
+                </TableBody>
             </Box>
         </Box>
     )

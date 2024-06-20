@@ -119,7 +119,6 @@ const Dashboard = () => {
                             
                             {entrega.status.toUpperCase() === 'EM_ROTA' ? (
                                 
-
                                 itemsPaginaAdmin.nomePagina === 'Entregadores' ? (
                                     <TableCell>
                                         <Button variant="outlined" color="error" onClick={() => confirmar_entrega(entrega)}>
