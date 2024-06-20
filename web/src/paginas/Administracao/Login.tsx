@@ -6,8 +6,10 @@ import { useState } from "react";
 import { useSetToken } from "../../state/hooks/useSetToken";
 import { useSetIdLogado } from "../../state/hooks/useSetIdLogado";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [tipo, setTipo] = useState(TipoLoginEnum.EMPRESA);
@@ -28,6 +30,7 @@ const Login = () => {
                 tokenSet(tipo);
                 idLogadoSet({ id: resposta.data.id, nome: resposta.data.nome});
                 alert('Login efetuado com sucesso!');
+                navigate(-1);
             })
             .catch(error => {
                 alert(error.response.data.message);
